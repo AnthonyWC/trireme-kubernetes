@@ -22,4 +22,4 @@ docker run \
   -e TRIREME_CERT_ANNOTATION=$TRIREME_CERT_ANNOTATION
   -e TRIREME_NETS=$TRIREME_NETS
   --restart always \
-aporeto/trireme-kubernetes
+aporeto/trireme-gke
