@@ -310,8 +310,9 @@ func generatePUPolicy(rules *[]extensions.NetworkPolicyIngressRule, podNamespace
 	// Egress Allow All as per Network Policy definition.
 	egressACLs := policy.NewIPRuleList(aclAllowAllRules())
 	receiverRulesList := policy.NewTagSelectorList(receiverRules)
+	excludedNets := []string{}
 
-	containerPolicy := policy.NewPUPolicy("", policy.Police, egressACLs, ingressACLs, nil, receiverRulesList, tags, tags, ips, triremeNets, nil)
+	containerPolicy := policy.NewPUPolicy("", policy.Police, egressACLs, ingressACLs, nil, receiverRulesList, tags, tags, ips, triremeNets, excludedNets, nil)
 
 	logRules(containerPolicy)
 	return containerPolicy, nil
@@ -335,8 +336,9 @@ func allowAllPolicy(tags *policy.TagsMap, ipMap *policy.IPMap, triremeNets []str
 	receivingRules := policy.NewTagSelectorList([]policy.TagSelector{selector})
 	ingressACLs := policy.NewIPRuleList([]policy.IPRule{allowAllRules[0], allowAllRules[1]})
 	egressACLs := policy.NewIPRuleList([]policy.IPRule{allowAllRules[0], allowAllRules[1]})
+	excludedNets := []string{}
 
-	return policy.NewPUPolicy("", policy.AllowAll, ingressACLs, egressACLs, nil, receivingRules, tags, tags, ipMap, triremeNets, nil)
+	return policy.NewPUPolicy("", policy.AllowAll, ingressACLs, egressACLs, nil, receivingRules, tags, tags, ipMap, triremeNets, excludedNets, nil)
 }
 
 // notInfraContainerPolicy is a policy that should apply to the other containers in a PoD that are not the infra container.

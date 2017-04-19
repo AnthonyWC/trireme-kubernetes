@@ -15,7 +15,6 @@ import (
 
 	"github.com/aporeto-inc/trireme/monitor"
 	"github.com/aporeto-inc/trireme/policy"
-	"github.com/aporeto-inc/trireme/supervisor"
 	"github.com/golang/glog"
 )
 
@@ -41,7 +40,6 @@ const KubernetesNetworkPolicyAnnotationID = "net.beta.kubernetes.io/network-poli
 type KubernetesPolicy struct {
 	triremeNetworks   []string
 	policyUpdater     trireme.PolicyUpdater
-	excluder          supervisor.Excluder
 	localExcluded     bool
 	KubernetesClient  *kubernetes.Client
 	cache             *cache
@@ -112,12 +110,6 @@ func isPolicyUpdateNeeded(oldPod, newPod *api.Pod) bool {
 // SetPolicyUpdater registers the interface used for updating Policies explicitely.
 func (k *KubernetesPolicy) SetPolicyUpdater(policyUpdater trireme.PolicyUpdater) error {
 	k.policyUpdater = policyUpdater
-	return nil
-}
-
-// SetExcluder registers the interface used for updating Policies explicitely.
-func (k *KubernetesPolicy) SetExcluder(excluder supervisor.Excluder) error {
-	k.excluder = excluder
 	return nil
 }
 
